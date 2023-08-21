@@ -1,10 +1,7 @@
-
 import streamlit as st
-import os
+import modal
 import json
-
-# Streamlit configurations
-st.set_page_config(page_title="Podcast Newsletter", layout="wide", initial_sidebar_state="expanded")
+import os
 
 def main():
     st.title("Newsletter Dashboard")
@@ -54,8 +51,7 @@ def main():
         # Display the five key moments
         st.subheader("Key Moments")
         key_moments = podcast_info['podcast_highlights']
-        for moment in key_moments.split('
-'):
+        for moment in key_moments.split('\n'):
             st.markdown(
                 f"<p style='margin-bottom: 5px;'>{moment}</p>", unsafe_allow_html=True)
 
@@ -64,7 +60,7 @@ def main():
     url = st.sidebar.text_input("Link to RSS Feed")
 
     process_button = st.sidebar.button("Process Podcast Feed")
-    st.sidebar.markdown("**Note**: Podcast processing can take up to 5 mins, please be patient.")
+    st.sidebar.markdown("**Note**: Podcast processing can take upto 5 mins, please be patient.")
 
     if process_button:
 
@@ -103,8 +99,7 @@ def main():
         # Display the five key moments
         st.subheader("Key Moments")
         key_moments = podcast_info['podcast_highlights']
-        for moment in key_moments.split('
-'):
+        for moment in key_moments.split('\n'):
             st.markdown(
                 f"<p style='margin-bottom: 5px;'>{moment}</p>", unsafe_allow_html=True)
 
@@ -123,7 +118,6 @@ def create_dict_from_json_files(folder_path):
     return data_dict
 
 def process_podcast_info(url):
-    # Assuming modal is an external module that you have access to.
     f = modal.Function.lookup("corise-podcast-project", "process_podcast")
     output = f.call(url, '/content/podcast/')
     return output
